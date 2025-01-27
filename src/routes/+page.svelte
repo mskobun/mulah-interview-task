@@ -22,6 +22,12 @@
             download: true,
             header: true,
             complete: function (results) {
+                if (results.errors.length > 0) {
+                    error = "Error parsing CSV file: " + results.errors[0].message;
+                    console.error(results.errors);
+                    return;
+                }
+
                 if (results.data.length > 0) {
                     headers = Object.keys(results.data[0]);
                 }
@@ -40,7 +46,7 @@
                 }
             },
             error: function (err) {
-                error = "Error parsing CSV file";
+                error = "Error loading CSV file: " + err.message;
                 console.error(err);
             },
         });
